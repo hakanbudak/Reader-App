@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "877660864035",
+    "project_id": "cardreader2-5922d",
+    "storage_bucket": "cardreader2-5922d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:877660864035:android:4a29d8b4923d948e6dfb96",
+        "android_client_info": {
+          "package_name": "com.burakdogan.netline_cardvisit_reader"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "877660864035-8ckntufi716qf1j1nr5jn659vskjrfkb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIt98KMXFSS2vXSZAkKe2CKkVxrxkK5Vk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "877660864035-8ckntufi716qf1j1nr5jn659vskjrfkb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,64 @@
+name: netline_cardvisit_reader
+description: A new Flutter application.
+
+version: 2.0.0+1
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  camera: ^0.5.8+5
+  image_picker: ^0.6.7+7
+  image: ^2.1.14
+  cupertino_icons: ^1.0.0
+  mlkit: ^0.15.1
+  path_provider: ^1.6.14
+  path: ^1.7.0
+  http: ^0.12.2
+  duration: ^2.0.15
+  firebase_auth: ^0.14.0+2
+  cloud_firestore: ^0.13.6
+  firebase_core: ^0.4.0+8
+  google_sign_in: ^4.5.3
+  fluttertoast: ^3.1.0
+  json_serializable: ^3.4.1
+  turkish: ^0.1.0+2
+  dropdownfield: ^1.0.3
+  contacts_service: ^0.4.6
+  shared_preferences: ^0.5.10
+  permission_handler: 4.2.0+hotfix.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/images/netline.png
+
+targets:
+  $default:
+    builders:
+      json_serializable:
+        options:
+          # Options configure how source code is generated for every
+          # `@JsonSerializable`-annotated class in the package.
+          #
+          # The default value for each is listed.
+          any_map: true
+          checked: false
+          create_factory: true
+          create_to_json: true
+          disallow_unrecognized_keys: false
+          explicit_to_json: false
+          field_rename: none
+          ignore_unannotated: false
+          include_if_null: true
+          nullable: true

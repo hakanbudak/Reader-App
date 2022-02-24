@@ -54,27 +54,14 @@ class _SettingsPageState extends State<SettingsPage> {
               Icons.cancel,
               color: Globals.AppBaseReverseColor,
             ),
-            title: Text(
-              "",
-              style: TextStyle(
-                color: Globals.AppBaseReverseColor,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            label:"",
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.save,
               color: Globals.AppBaseReverseColor,
             ),
-            title: Text(
-              "",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Globals.AppBaseReverseColor,
-                fontSize: 16,
-              ),
-            ),
+            label:"",
           ),
         ],
         currentIndex: 0,

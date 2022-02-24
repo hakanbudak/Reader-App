@@ -45,7 +45,7 @@ class RestHelper {
           '/api/v1.0/login?authorization=' +
           authorizationBase64String;
 
-      var response = await post(url);
+      var response = await post(Uri.parse(url));
 
       _crmLoginResult = CrmLoginResult.fromJson(jsonDecode(response.body));
 
@@ -83,7 +83,7 @@ class RestHelper {
     var jsonString = JsonHelper.getFirmJsonString(firm);
 
     var response = await post(
-      url,
+      Uri.parse(url),
       headers: _header,
       body: jsonString,
     );
@@ -115,7 +115,7 @@ class RestHelper {
         domain +
         "'";
 
-    var response = await get(url);
+    var response = await get(Uri.parse(url));
 
     var crmPostResult = CrmPostResultModel.fromJson(jsonDecode(response.body));
     print(url);
@@ -147,7 +147,7 @@ class RestHelper {
         mainAddress +
         "'";
 
-    var response = await get(url);
+    var response = await get(Uri.parse(url));
 
     var crmPostResult = CrmPostResultModel.fromJson(jsonDecode(response.body));
     print(url);
@@ -179,7 +179,7 @@ class RestHelper {
         firmOid +
         "'";
 
-    var response = await get(url);
+    var response = await get(Uri.parse(url));
 
     var crmPostResult = CrmPostResultModel.fromJson(jsonDecode(response.body));
     print(url);
@@ -210,7 +210,7 @@ class RestHelper {
         domain +
         "'";
 
-    var response = await get(url);
+    var response = await get(Uri.parse(url));
 
     var crmPostResult = CrmPostResultModel.fromJson(jsonDecode(response.body));
     print(url);
@@ -254,7 +254,7 @@ class RestHelper {
     var phoneJson = JsonHelper.getPhoneJsonString(phone);
 
     var response = await post(
-      url,
+      Uri.parse(url),
       headers: _header,
       body: phoneJson,
     );
@@ -301,7 +301,7 @@ class RestHelper {
     var phoneJson = JsonHelper.getPhoneJsonString(phone);
 
     var response = await post(
-      url,
+      Uri.parse(url),
       headers: _header,
       body: phoneJson,
     );
@@ -348,7 +348,7 @@ class RestHelper {
     var phoneJson = JsonHelper.getPhoneJsonString(phone);
 
     var response = await post(
-      url,
+      Uri.parse(url),
       headers: _header,
       body: phoneJson,
     );
@@ -394,7 +394,7 @@ class RestHelper {
     var phoneJson = JsonHelper.getPhoneJsonString(phone);
 
     var response = await post(
-      url,
+      Uri.parse(url),
       headers: _header,
       body: phoneJson,
     );
@@ -445,7 +445,7 @@ class RestHelper {
     var addressJson = JsonHelper.getAddressJsonString(firm);
 
     var response = await post(
-      url,
+      Uri.parse(url),
       headers: _header,
       body: addressJson,
     );
@@ -486,7 +486,7 @@ class RestHelper {
     var contactJson = JsonHelper.getContactJsonString(firm);
 
     var response = await post(
-      url,
+      Uri.parse(url),
       headers: _header,
       body: contactJson,
     );
@@ -517,7 +517,7 @@ class RestHelper {
         _crmLoginResult.sessionId +
         "&EmailAddress1 like '%@bilkur.com.tr'";
 
-    var response = await get(url);
+    var response = await get(Uri.parse(url));
 
     var crmPostResult = CrmPostResultModel.fromJson(jsonDecode(response.body));
     print(url);
@@ -555,7 +555,7 @@ class RestHelper {
         phoneTypeName +
         "'&fields=Oid,TypeName";
 
-    var response = await get(url);
+    var response = await get(Uri.parse(url));
 
     var crmPostResult = CrmPostResultModel.fromJson(jsonDecode(response.body));
     print(url);
@@ -593,7 +593,7 @@ class RestHelper {
         countryName +
         "' AND GlobalDBId>0&fields=Oid,Name,TripleCode,GlobalDBId";
 
-    var response = await get(url);
+    var response = await get(Uri.parse(url));
 
     var crmPostResult = CrmPostResultModel.fromJson(jsonDecode(response.body));
     print(url);
@@ -624,67 +624,67 @@ class RestHelper {
     }
   }
 
-  static Future<Cities> getCities(String countryName) async {
-    _countryOid = await getCountryOid(countryName).then((onValue) {
-      return _countryOid;
-    });
+  // static Future<Cities> getCities(String countryName) async {
+  //   _countryOid = await getCountryOid(countryName).then((onValue) {
+  //     return _countryOid;
+  //   });
 
-    if (_countryOid.isEmpty) {
-      return new Cities(
-        0,
-        "Ülke Referansına Erişilemediği İçin İller Listesi Çekilemedi.",
-      );
-    }
+  //   if (_countryOid.isEmpty) {
+  //     return new Cities(
+  //       0,
+  //       "Ülke Referansına Erişilemediği İçin İller Listesi Çekilemedi.",
+  //     );
+  //   }
 
-    var url = _settings.url +
-        "/api/v1.0/cities?SessionId=" +
-        _crmLoginResult.sessionId +
-        "&fieldName=Oid,CityName,AreaCode,GlobalDBId&q=CountryOid='" +
-        _countryOid +
-        "' AND GlobalDBId>0&limit=1000";
+  //   var url = _settings.url +
+  //       "/api/v1.0/cities?SessionId=" +
+  //       _crmLoginResult.sessionId +
+  //       "&fieldName=Oid,CityName,AreaCode,GlobalDBId&q=CountryOid='" +
+  //       _countryOid +
+  //       "' AND GlobalDBId>0&limit=1000";
 
-    var response = await get(url);
+  //   var response = await get(url);
 
-    var cities = Cities.fromJson(jsonDecode(response.body));
+  //   var cities = Cities.fromJson(jsonDecode(response.body));
 
-    if (cities.result != 1) {
-      ToastHelper.showToast("İller Listesi Çekilemedi. " + cities.message,
-          Toast.LENGTH_LONG, true);
+  //   if (cities.result != 1) {
+  //     ToastHelper.showToast("İller Listesi Çekilemedi. " + cities.message,
+  //         Toast.LENGTH_LONG, true);
 
-      var resCities = new Cities(0, "İller Listesi Çekilemedi");
-      return resCities;
-    }
+  //     var resCities = new Cities(0, "İller Listesi Çekilemedi");
+  //     return resCities;
+  //   }
 
-    return cities;
-  }
+  //   return cities;
+  // }
 
-  static Future<Towns> getTowns(String cityOid) async {
-    var url = _settings.url +
-        "/api/v1.0/counties?SessionId=" +
-        _crmLoginResult.sessionId +
-        "&fields=Oid,CountyName,GlobalDBId,CityOid"
-            "&q=CityOid='" +
-        cityOid +
-        "' AND GlobalDBId>0&limit=10000";
+  // static Future<Towns> getTowns(String cityOid) async {
+  //   var url = _settings.url +
+  //       "/api/v1.0/counties?SessionId=" +
+  //       _crmLoginResult.sessionId +
+  //       "&fields=Oid,CountyName,GlobalDBId,CityOid"
+  //           "&q=CityOid='" +
+  //       cityOid +
+  //       "' AND GlobalDBId>0&limit=10000";
 
-    var response = await get(url);
+  //   var response = await get(url);
 
-    var towns = Towns.fromJson(jsonDecode(response.body));
+  //   var towns = Towns.fromJson(jsonDecode(response.body));
 
-    if (towns.result != 1) {
-      ToastHelper.showToast("İlçeler Listesi Çekilemedi. " + towns.message,
-          Toast.LENGTH_LONG, true);
-    }
+  //   if (towns.result != 1) {
+  //     ToastHelper.showToast("İlçeler Listesi Çekilemedi. " + towns.message,
+  //         Toast.LENGTH_LONG, true);
+  //   }
 
-    return towns;
-  }
+  //   return towns;
+  // }
 
   static Future<Sectors> getSectors() async {
     var url = "${_settings.url}/api/v1.0/sectors?" +
         "SessionId=${_crmLoginResult.sessionId}" +
         "&q=IsActive=true";
 
-    var response = await get(url);
+    var response = await get(Uri.parse(url));
 
     var sectors = Sectors.fromJson(jsonDecode(response.body));
 
@@ -700,7 +700,7 @@ class RestHelper {
     var url =
         "${_settings.url}/api/v1.0/sectors?SessionId=${_crmLoginResult.sessionId}&q=SectorName='$sectorName'";
 
-    var response = await get(url);
+    var response = await get(Uri.parse(url));
 
     var crmPostResult = CrmPostResultModel.fromJson(jsonDecode(response.body));
     print(url);
@@ -742,7 +742,7 @@ class RestHelper {
 
     var jsonString = JsonHelper.getFirmJsonString(firm);
 
-    Response response = await post(url, headers: headers, body: jsonString);
+    Response response = await post(Uri.parse(url), headers: headers, body: jsonString);
 
     String body = response.body;
 
@@ -777,7 +777,7 @@ class RestHelper {
 
       var phone1Json = JsonHelper.getPhoneJsonString(phone);
 
-      response = await post(url, headers: headers, body: phone1Json);
+      response = await post(Uri.parse(url), headers: headers, body: phone1Json);
 
       body = response.body;
 
@@ -810,7 +810,7 @@ class RestHelper {
 
       var phone2Json = JsonHelper.getPhoneJsonString(phone);
 
-      response = await post(url, headers: headers, body: phone2Json);
+      response = await post(Uri.parse(url), headers: headers, body: phone2Json);
 
       body = response.body;
 
@@ -838,14 +838,14 @@ class RestHelper {
 
     if (firm.mainAddress.isNotEmpty) {
       var address = new Address();
-      address.city = firm.city;
-      address.county = firm.town;
+      // address.city = firm.city;
+      // address.county = firm.town;
       address.street = firm.mainAddress;
 
       // var addressJson = JsonHelper.getAddressJsonString(firmOid, address);
       var addressJson = JsonHelper.getAddressJsonString(firm);
 
-      response = await post(url, headers: headers, body: addressJson);
+      response = await post(Uri.parse(url), headers: headers, body: addressJson);
 
       body = response.body;
 
@@ -883,7 +883,7 @@ class RestHelper {
 
       debugPrint("ContactJson:\n" + contactJson);
 
-      response = await post(url, headers: headers, body: contactJson);
+      response = await post(Uri.parse(url), headers: headers, body: contactJson);
 
       body = response.body;
 
@@ -920,7 +920,7 @@ class RestHelper {
         categoryName +
         "'&fields=Oid";
 
-    var response = await get(url);
+    var response = await get(Uri.parse(url));
 
     var crmPostResult = CrmPostResultModel.fromJson(jsonDecode(response.body));
     print(url);

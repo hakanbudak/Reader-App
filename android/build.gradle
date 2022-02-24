@@ -1,16 +1,14 @@
 buildscript {
 
-    configurations.all { 
-        exclude module:"groovy-all"
-    }
-
+    ext.kotlin_version = '1.6.10'
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.0'
+        classpath 'com.android.tools.build:gradle:4.1.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.google.gms:google-services:4.3.10'
         
         // classpath('com.dicedmelon.gradle:jacoco-android:0.1.2') {
@@ -34,7 +32,7 @@ subprojects {
 subprojects {
     project.evaluationDependsOn(':app')
 }
-
+/*
 subprojects {
     project.configurations.all {
         resolutionStrategy.eachDependency { details ->
@@ -44,7 +42,7 @@ subprojects {
             }
         }
     }
-}
+}*/
 
 task clean(type: Delete) {
     delete rootProject.buildDir

@@ -1,16 +1,14 @@
-import 'dart:io';
 import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mlkit/mlkit.dart';
 import 'package:netline_cardvisit_reader/helpers/contactHelper.dart';
 import 'package:netline_cardvisit_reader/helpers/patternhelper.dart';
 import 'package:netline_cardvisit_reader/helpers/resthelper.dart';
 import 'package:netline_cardvisit_reader/helpers/staticListHelper.dart';
 import 'package:netline_cardvisit_reader/helpers/stringhelper.dart';
 import 'package:netline_cardvisit_reader/helpers/toasthelper.dart';
-import 'package:netline_cardvisit_reader/models/cities.dart';
 import 'package:netline_cardvisit_reader/models/crmloginresult.dart';
 import 'package:netline_cardvisit_reader/models/crmpostresultmodel.dart';
 import 'package:netline_cardvisit_reader/models/firm.dart';
@@ -27,8 +25,8 @@ class OptionalPage extends StatefulWidget {
 }
 
 class _OptionalPageState extends State<OptionalPage> {
-  FirebaseVisionTextDetector detector = FirebaseVisionTextDetector.instance;
-  File _file;
+  TextDetector detector = GoogleMlKit.vision.textDetector();
+  XFile _file;
   DemoLocalizations localization;
   CrmLoginResult _crmLoginResult = new CrmLoginResult(0, "", "", "", false, "");
 
@@ -96,7 +94,8 @@ class _OptionalPageState extends State<OptionalPage> {
 
   String selectedCountry = "";
   String selectedFirm = "";
-  String selectedSector = "";
+  String selectedSector;
+  String selectedSubCategory;
 
   String readedText1 = "";
   String readedText2 = "";
@@ -256,6 +255,9 @@ class _OptionalPageState extends State<OptionalPage> {
       }
     });
   }
+
+  List<String> provinces = [];
+  String selectedProvince;
 
   @override
   Widget build(BuildContext context) {
@@ -520,84 +522,42 @@ class _OptionalPageState extends State<OptionalPage> {
                 fontWeight: FontWeight.bold,
                 fontSize: 18),
           ),
-          title: Text(
-            "",
-            style: TextStyle(
-              color: Globals.AppBaseReverseColor,
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
-          ),
+          label: "",
         ),
         BottomNavigationBarItem(
           icon: Icon(
             Icons.phone,
             color: Globals.AppBaseReverseColor,
           ),
-          title: Text(
-            "",
-            style: TextStyle(
-              color: Globals.AppBaseReverseColor,
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
-          ),
+          label: "",
         ),
         BottomNavigationBarItem(
           icon: Icon(
             Icons.photo,
             color: Globals.AppBaseReverseColor,
           ),
-          title: Text(
-            "",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Globals.AppBaseReverseColor,
-              fontSize: 16,
-            ),
-          ),
+          label: "",
         ),
         BottomNavigationBarItem(
           icon: Icon(
             Icons.camera,
             color: Globals.AppBaseReverseColor,
           ),
-          title: Text(
-            "",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Globals.AppBaseReverseColor,
-              fontSize: 16,
-            ),
-          ),
+          label: "",
         ),
         BottomNavigationBarItem(
           icon: Icon(
             Icons.add_a_photo,
             color: Globals.AppBaseReverseColor,
           ),
-          title: Text(
-            "",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Globals.AppBaseReverseColor,
-              fontSize: 16,
-            ),
-          ),
+          label: "",
         ),
         BottomNavigationBarItem(
           icon: Icon(
             Icons.settings,
             color: Globals.AppBaseReverseColor,
           ),
-          title: Text(
-            "",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Globals.AppBaseReverseColor,
-              fontSize: 16,
-            ),
-          ),
+          label: "",
         ),
       ],
       currentIndex: _selectedIndex,
@@ -821,7 +781,7 @@ class _OptionalPageState extends State<OptionalPage> {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: DropdownButton<String>(
                     value: selectedItem1,
                     icon:
@@ -876,7 +836,7 @@ class _OptionalPageState extends State<OptionalPage> {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: DropdownButton<String>(
                     value: selectedItem2,
                     icon:
@@ -931,7 +891,7 @@ class _OptionalPageState extends State<OptionalPage> {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: DropdownButton<String>(
                     value: selectedItem3,
                     icon:
@@ -986,7 +946,7 @@ class _OptionalPageState extends State<OptionalPage> {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: DropdownButton<String>(
                     value: selectedItem4,
                     icon:
@@ -1041,7 +1001,7 @@ class _OptionalPageState extends State<OptionalPage> {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: DropdownButton<String>(
                     value: selectedItem5,
                     icon:
@@ -1096,7 +1056,7 @@ class _OptionalPageState extends State<OptionalPage> {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: DropdownButton<String>(
                     value: selectedItem6,
                     icon:
@@ -1151,7 +1111,7 @@ class _OptionalPageState extends State<OptionalPage> {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: DropdownButton<String>(
                     value: selectedItem7,
                     icon:
@@ -1206,7 +1166,7 @@ class _OptionalPageState extends State<OptionalPage> {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: DropdownButton<String>(
                     value: selectedItem8,
                     icon:
@@ -1261,7 +1221,7 @@ class _OptionalPageState extends State<OptionalPage> {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: DropdownButton<String>(
                     value: selectedItem9,
                     icon:
@@ -1316,7 +1276,7 @@ class _OptionalPageState extends State<OptionalPage> {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: DropdownButton<String>(
                     value: selectedItem10,
                     icon:
@@ -1371,7 +1331,7 @@ class _OptionalPageState extends State<OptionalPage> {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: DropdownButton<String>(
                     value: selectedItem11,
                     icon:
@@ -1426,7 +1386,7 @@ class _OptionalPageState extends State<OptionalPage> {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: DropdownButton<String>(
                     value: selectedItem12,
                     icon:
@@ -1481,7 +1441,7 @@ class _OptionalPageState extends State<OptionalPage> {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: DropdownButton<String>(
                     value: selectedItem13,
                     icon:
@@ -1536,7 +1496,7 @@ class _OptionalPageState extends State<OptionalPage> {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: DropdownButton<String>(
                     value: selectedItem14,
                     icon:
@@ -1591,7 +1551,7 @@ class _OptionalPageState extends State<OptionalPage> {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: DropdownButton<String>(
                     value: selectedItem15,
                     icon:
@@ -1646,7 +1606,7 @@ class _OptionalPageState extends State<OptionalPage> {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: DropdownButton<String>(
                     value: selectedItem16,
                     icon:
@@ -1701,7 +1661,7 @@ class _OptionalPageState extends State<OptionalPage> {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: DropdownButton<String>(
                     value: selectedItem17,
                     icon:
@@ -1756,7 +1716,7 @@ class _OptionalPageState extends State<OptionalPage> {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: DropdownButton<String>(
                     value: selectedItem18,
                     icon:
@@ -1811,7 +1771,7 @@ class _OptionalPageState extends State<OptionalPage> {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: DropdownButton<String>(
                     value: selectedItem19,
                     icon:
@@ -1866,7 +1826,7 @@ class _OptionalPageState extends State<OptionalPage> {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: DropdownButton<String>(
                     value: selectedItem20,
                     icon:
@@ -1921,7 +1881,7 @@ class _OptionalPageState extends State<OptionalPage> {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: DropdownButton<String>(
                     value: selectedItem21,
                     icon:
@@ -1976,7 +1936,7 @@ class _OptionalPageState extends State<OptionalPage> {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: DropdownButton<String>(
                     value: selectedItem22,
                     icon:
@@ -2031,7 +1991,7 @@ class _OptionalPageState extends State<OptionalPage> {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: DropdownButton<String>(
                     value: selectedItem23,
                     icon:
@@ -2086,7 +2046,7 @@ class _OptionalPageState extends State<OptionalPage> {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: DropdownButton<String>(
                     value: selectedItem24,
                     icon:
@@ -2141,7 +2101,7 @@ class _OptionalPageState extends State<OptionalPage> {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: DropdownButton<String>(
                     value: selectedItem25,
                     icon:
@@ -2196,7 +2156,7 @@ class _OptionalPageState extends State<OptionalPage> {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: DropdownButton<String>(
                     value: selectedItem26,
                     icon:
@@ -2251,7 +2211,7 @@ class _OptionalPageState extends State<OptionalPage> {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: DropdownButton<String>(
                     value: selectedItem27,
                     icon:
@@ -2306,7 +2266,7 @@ class _OptionalPageState extends State<OptionalPage> {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: DropdownButton<String>(
                     value: selectedItem28,
                     icon:
@@ -2361,7 +2321,7 @@ class _OptionalPageState extends State<OptionalPage> {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: DropdownButton<String>(
                     value: selectedItem29,
                     icon:
@@ -2416,7 +2376,7 @@ class _OptionalPageState extends State<OptionalPage> {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: DropdownButton<String>(
                     value: selectedItem30,
                     icon:
@@ -2449,33 +2409,33 @@ class _OptionalPageState extends State<OptionalPage> {
       ],
     );
 
-    var cityColumn = Column(
-      children: <Widget>[
-        Visibility(
-          visible: true,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  flex: 10,
-                  child: TextField(
-                    style: textStyle,
-                    controller: textEditingControllerCity,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      focusColor: Globals.AppBaseColor,
-                      hintText: 'City',
-                      hintStyle: textStyle,
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
+    // var cityColumn = Column(
+    //   children: <Widget>[
+    //     Visibility(
+    //       visible: true,
+    //       child: Padding(
+    //         padding: const EdgeInsets.all(8.0),
+    //         child: Row(
+    //           children: <Widget>[
+    //             Expanded(
+    //               flex: 10,
+    //               child: TextField(
+    //                 style: textStyle,
+    //                 controller: textEditingControllerCity,
+    //                 decoration: InputDecoration(
+    //                   border: InputBorder.none,
+    //                   focusColor: Globals.AppBaseColor,
+    //                   hintText: 'City',
+    //                   hintStyle: textStyle,
+    //                 ),
+    //               ),
+    //             )
+    //           ],
+    //         ),
+    //       ),
+    //     ),
+    //   ],
+    // );
 
     var countryDropDown = Column(
       children: <Widget>[
@@ -2496,7 +2456,9 @@ class _OptionalPageState extends State<OptionalPage> {
                     items: StaticListHelper.getCountryList(),
                     strict: false,
                     onValueChanged: (dynamic newValue) {
-                      selectedCountry = newValue;
+                      setState(() {
+                        selectedCountry = newValue;
+                      });
                       print("onValueChanged: $newValue");
                     },
                     controller: textEditingControllerCountry,
@@ -2533,7 +2495,9 @@ class _OptionalPageState extends State<OptionalPage> {
                     items: StaticListHelper.getFirmList(),
                     strict: false,
                     onValueChanged: (dynamic newValue) {
-                      selectedFirm = newValue;
+                      setState(() {
+                        selectedFirm = newValue;
+                      });
                       print("onValueChanged: $newValue");
                     },
                     controller: textEditingControllerFirm,
@@ -2561,24 +2525,27 @@ class _OptionalPageState extends State<OptionalPage> {
               children: <Widget>[
                 Expanded(
                   flex: 10,
-                  child: DropDownField(
+                  child: DropdownButtonFormField<String>(
                     value: selectedSector,
-                    icon: null,
-                    required: false,
-                    hintText: localization.chooseSector,
-                    labelText: null,
-                    items: StaticListHelper.getSectors(),
-                    strict: false,
-                    onValueChanged: (dynamic newValue) {
-                      selectedSector = newValue;
-                      print("onValueChanged: $newValue");
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      label: Text(localization.chooseSector),
+                    ),
+                    items: StaticListHelper.getSectors()
+                        .map((e) => DropdownMenuItem<String>(
+                              child: Text(e),
+                              value: e,
+                            ))
+                        .toList(),
+                    onChanged: (v) {
+                      setState(() {
+                        if (selectedSector != v) {
+                          selectedSubCategory = null;
+                        }
+                        selectedSector = v;
+                      });
+                      print("onValueChanged: $v");
                     },
-                    controller: textEditingControllerSector,
-                    setter: (dynamic newValue) {
-                      selectedSector = newValue.toString();
-                      print("setter: $newValue");
-                    },
-                    textStyle: textStyle,
                   ),
                 )
               ],
@@ -2588,6 +2555,42 @@ class _OptionalPageState extends State<OptionalPage> {
       ],
     );
 
+    var firmCategories = Column(
+      children: <Widget>[
+        Visibility(
+          visible: true,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  flex: 10,
+                  child: DropdownButtonFormField<String>(
+                    value: selectedSubCategory,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      label: Text(localization.chooseSubCategory),
+                    ),
+                    items: StaticListHelper.getCategories(selectedSector)
+                        .map((e) => DropdownMenuItem<String>(
+                              child: Text(e),
+                              value: e,
+                            ))
+                        .toList(),
+                    onChanged: (v) {
+                      setState(() {
+                        selectedSubCategory = v;
+                      });
+                      print("onValueChanged: $v");
+                    },
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
     var dividerStartInset = 4.0;
     var dividerEndInset = 4.0;
     var dividerLineHeight = 4.0;
@@ -3118,15 +3121,32 @@ class _OptionalPageState extends State<OptionalPage> {
     widgetList.add(divider29);
     widgetList.add(column30);
     widgetList.add(divider30);
-    widgetList.add(cityColumn);
+    // widgetList.add(cityColumn);
     widgetList.add(divider);
     widgetList.add(countryDropDown);
     widgetList.add(firmListDropDown);
     widgetList.add(sectorDropDown);
+    widgetList.add(firmCategories);
 
     return widgetList;
   }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // void onChangedCallback(category) {
+  //   if (category == 'Guests') {
+  //     var provinces = guestsCategory;
+  //   } else if (category == 'Agenty') {
+  //     provinces = agentyCategory;
+  //   } else {
+  //     provinces = [];
+  //   }
+  //   setState(() {
+  //     selectedProvince = null;
+  //     selectedCategory = category;
+  //   });
+  // }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   void clearFields() {
     lastRowNr = 1;
 
@@ -3267,18 +3287,20 @@ class _OptionalPageState extends State<OptionalPage> {
 
     try {
       var file =
-          await ImagePicker.pickImage(source: imageSource, imageQuality: 100);
+          await ImagePicker().pickImage(source: imageSource, imageQuality: 100);
 
       if (file != null) {
         setState(() {
           _file = file;
         });
         try {
-          var currentLabels = await detector.detectFromPath(_file?.path);
+          final inputImage = InputImage.fromFilePath(_file?.path);
+          final RecognisedText currentLabels =
+              await detector.processImage(inputImage);
 
           if (isDoubleSide) {
-            file = await ImagePicker.pickImage(
-                source: imageSource, imageQuality: 100);
+            file = await ImagePicker()
+                .pickImage(source: imageSource, imageQuality: 100);
 
             if (file != null) {
               setState(() {
@@ -3287,10 +3309,12 @@ class _OptionalPageState extends State<OptionalPage> {
             }
 
             try {
-              var currentLabels2 = await detector.detectFromPath(_file?.path);
+              final inputImage = InputImage.fromFilePath(_file?.path);
+              final RecognisedText currentLabels2 =
+                  await detector.processImage(inputImage);
 
-              for (VisionTextBlock visionText in currentLabels2) {
-                currentLabels.add(visionText);
+              for (TextBlock visionText in currentLabels2.blocks) {
+                currentLabels.blocks.add(visionText);
               }
             } catch (e) {
               ToastHelper.showToast(
@@ -3311,8 +3335,8 @@ class _OptionalPageState extends State<OptionalPage> {
             bool isAddress2Set = false;
             bool isFaxPhoneSet = false;
 
-            for (VisionTextBlock visionText in currentLabels) {
-              for (VisionTextLine line in visionText.lines) {
+            for (TextBlock visionText in currentLabels.blocks) {
+              for (TextLine line in visionText.lines) {
                 var mailString = patternHelper.getEMailAddress(line.text);
                 var webUrlString = patternHelper.getWebUrl(line.text);
                 var phone1 = patternHelper.getPhoneNumber(line.text);
@@ -4672,7 +4696,7 @@ class _OptionalPageState extends State<OptionalPage> {
 
   transferData() async {
     var country = turkish.toUpperCase(getCountry());
-    var city = turkish.toUpperCase(getCity());
+    // var city = turkish.toUpperCase(getCity());
 
     if (country.isEmpty) {
       ToastHelper.showToast(
@@ -4682,14 +4706,14 @@ class _OptionalPageState extends State<OptionalPage> {
       );
       return;
     }
-    if (city.isEmpty) {
-      ToastHelper.showToast(
-        localization.cityCannotBePassedEmpty,
-        Toast.LENGTH_LONG,
-        true,
-      );
-      return;
-    }
+    // if (city.isEmpty) {
+    //   ToastHelper.showToast(
+    //     localization.cityCannotBePassedEmpty,
+    //     Toast.LENGTH_LONG,
+    //     true,
+    //   );
+    //   return;
+    // }
     if (getFirmTitle().isEmpty) {
       ToastHelper.showToast(
         localization.clientDefinitionCannotBePassedEmpty,
@@ -4753,40 +4777,41 @@ class _OptionalPageState extends State<OptionalPage> {
 
     firm.countryOid = countryOid;
 
-    var cities = await RestHelper.getCities(country).then((onValue) => onValue);
+    // var cities = await RestHelper.getCities(country).then((onValue) => onValue);
 
-    var crmCityList = cities.items.where((i) => i.cityName == city);
+    // var crmCityList = cities.items.where((i) => i.cityName == city);
 
-    var crmCity = new CityItems("", "", "", 0);
+    // var crmCity = new CityItems("", "", "", 0);
 
-    if (crmCityList.any((i) => i.cityName == city)) {
-      crmCity = cities.items.firstWhere((i) => i.cityName == city);
-    }
+    // if (crmCityList.any((i) => i.cityName == city)) {
+    //   crmCity = cities.items.firstWhere((i) => i.cityName == city);
+    // }
 
-    if (crmCity.oid.isEmpty) {
-      ToastHelper.showToast(
-        localization.cityIsNotFound,
-        Toast.LENGTH_LONG,
-        true,
-      );
-      return;
-    }
+    // if (crmCity.oid.isEmpty) {
+    //   ToastHelper.showToast(
+    //     localization.cityIsNotFound,
+    //     Toast.LENGTH_LONG,
+    //     true,
+    //   );
+    //   return;
+    // }
 
-    var sectorOid = await RestHelper.getSectorOid(selectedSector)
-        .then((onValue) => onValue);
+    // var sectorOid = await RestHelper.getSectorOid(selectedSector)
+    //     .then((onValue) => onValue);
 
-    if (sectorOid.isEmpty) {
-      ToastHelper.showToast(
-        localization.sectorIsNotFound,
-        Toast.LENGTH_LONG,
-        true,
-      );
-      return;
-    }
+    // if (sectorOid.isEmpty) {
+    //   ToastHelper.showToast(
+    //     localization.sectorIsNotFound,
+    //     Toast.LENGTH_LONG,
+    //     true,
+    //   );
+    //   return;
+    // }
 
     firm.sectorName = selectedSector;
-    firm.sectorOid = sectorOid;
-    firm.cityOid = crmCity.oid;
+    // firm.sectorOid = sectorOid;
+    firm.sectorOid = "yok";
+    // firm.cityOid = crmCity.oid;
 
     var firmCategory01Oid = await RestHelper.getFirmCategory01Oid(selectedFirm)
         .then((onValue) => onValue);
@@ -4986,8 +5011,10 @@ class _OptionalPageState extends State<OptionalPage> {
     var firm = new Firm();
     firm.firmTitle = getFirmTitle();
     firm.mainAddress = getAddress();
-    firm.city = textEditingControllerCity.text;
-    firm.town = "";
+    // firm.city = textEditingControllerCity.text;
+    // firm.town = "";
+    firm.scCategory = selectedSector;
+    firm.scSubCategory = selectedSubCategory;
     firm.country = textEditingControllerCountry.text;
 
     firm.phone1 = StringHelper.getPhoneText(getMobilePhone());
@@ -4999,7 +5026,7 @@ class _OptionalPageState extends State<OptionalPage> {
     firm.eMailAddress3 = "";
     firm.webAddress1 = StringHelper.getWebUrlText(getWeb());
     firm.webAddress2 = "";
-    firm.cityOfMainAddress = "";
+    // firm.cityOfMainAddress = "";
     firm.countryOfMainAddress = "";
     firm.isPersonCompany = false;
     firm.inUse = true;
@@ -5009,52 +5036,52 @@ class _OptionalPageState extends State<OptionalPage> {
     return firm;
   }
 
-  String getCity() {
-    if (selectedItem1 == localization.city) {
-      return textEditingController1.text;
-    } else if (selectedItem2 == localization.city) {
-      return textEditingController2.text;
-    } else if (selectedItem3 == localization.city) {
-      return textEditingController3.text;
-    } else if (selectedItem4 == localization.city) {
-      return textEditingController4.text;
-    } else if (selectedItem5 == localization.city) {
-      return textEditingController5.text;
-    } else if (selectedItem6 == localization.city) {
-      return textEditingController6.text;
-    } else if (selectedItem7 == localization.city) {
-      return textEditingController7.text;
-    } else if (selectedItem8 == localization.city) {
-      return textEditingController8.text;
-    } else if (selectedItem9 == localization.city) {
-      return textEditingController9.text;
-    } else if (selectedItem10 == localization.city) {
-      return textEditingController10.text;
-    } else if (selectedItem11 == localization.city) {
-      return textEditingController11.text;
-    } else if (selectedItem12 == localization.city) {
-      return textEditingController12.text;
-    } else if (selectedItem13 == localization.city) {
-      return textEditingController13.text;
-    } else if (selectedItem14 == localization.city) {
-      return textEditingController14.text;
-    } else if (selectedItem15 == localization.city) {
-      return textEditingController15.text;
-    } else if (selectedItem16 == localization.city) {
-      return textEditingController16.text;
-    } else if (selectedItem17 == localization.city) {
-      return textEditingController17.text;
-    } else if (selectedItem18 == localization.city) {
-      return textEditingController18.text;
-    } else if (selectedItem19 == localization.city) {
-      return textEditingController19.text;
-    } else if (selectedItem20 == localization.city) {
-      return textEditingController20.text;
-    } else if (textEditingControllerCity.text.isNotEmpty) {
-      return textEditingControllerCity.text;
-    }
-    return "";
-  }
+  // String getCity() {
+  //   if (selectedItem1 == localization.city) {
+  //     return textEditingController1.text;
+  //   } else if (selectedItem2 == localization.city) {
+  //     return textEditingController2.text;
+  //   } else if (selectedItem3 == localization.city) {
+  //     return textEditingController3.text;
+  //   } else if (selectedItem4 == localization.city) {
+  //     return textEditingController4.text;
+  //   } else if (selectedItem5 == localization.city) {
+  //     return textEditingController5.text;
+  //   } else if (selectedItem6 == localization.city) {
+  //     return textEditingController6.text;
+  //   } else if (selectedItem7 == localization.city) {
+  //     return textEditingController7.text;
+  //   } else if (selectedItem8 == localization.city) {
+  //     return textEditingController8.text;
+  //   } else if (selectedItem9 == localization.city) {
+  //     return textEditingController9.text;
+  //   } else if (selectedItem10 == localization.city) {
+  //     return textEditingController10.text;
+  //   } else if (selectedItem11 == localization.city) {
+  //     return textEditingController11.text;
+  //   } else if (selectedItem12 == localization.city) {
+  //     return textEditingController12.text;
+  //   } else if (selectedItem13 == localization.city) {
+  //     return textEditingController13.text;
+  //   } else if (selectedItem14 == localization.city) {
+  //     return textEditingController14.text;
+  //   } else if (selectedItem15 == localization.city) {
+  //     return textEditingController15.text;
+  //   } else if (selectedItem16 == localization.city) {
+  //     return textEditingController16.text;
+  //   } else if (selectedItem17 == localization.city) {
+  //     return textEditingController17.text;
+  //   } else if (selectedItem18 == localization.city) {
+  //     return textEditingController18.text;
+  //   } else if (selectedItem19 == localization.city) {
+  //     return textEditingController19.text;
+  //   } else if (selectedItem20 == localization.city) {
+  //     return textEditingController20.text;
+  //   // } else if (textEditingControllerCity.text.isNotEmpty) {
+  //   //   return textEditingControllerCity.text;
+  //   }
+  //   return "";
+  // }
 
   String getCountry() {
     if (selectedItem1 == localization.country) {

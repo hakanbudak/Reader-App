@@ -1,11 +1,17 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:netline_cardvisit_reader/pages/optionalpage.dart';
-
-import 'package:netline_cardvisit_reader/pages/myvisiontext.dart';
-import 'package:netline_cardvisit_reader/pages/settingspage.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:netline_cardvisit_reader/pages/myvisiontext.dart';
+import 'package:netline_cardvisit_reader/pages/optionalpage.dart';
+import 'package:netline_cardvisit_reader/pages/settingspage.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(
+    MyApp(),
+  );
+}
 
 class MyApp extends StatelessWidget {
   final Map<int, Color> color = {
@@ -29,11 +35,7 @@ class MyApp extends StatelessWidget {
     // var countryCode = myLocale.countryCode;
 
     return MaterialApp(
-      localizationsDelegates: [
-        // ... app-specific localization delegate[s] here
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
+      localizationsDelegates: GlobalMaterialLocalizations.delegates,
       supportedLocales: [
         const Locale('en'),
         const Locale('tr'),

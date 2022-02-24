@@ -10,7 +10,9 @@ class Firm {
   String webAddress1;
   String webAddress2;
   String mainAddress;
-  String cityOfMainAddress;
+  String scCategory;
+  String scSubCategory;
+  // String cityOfMainAddress;
   String countryOfMainAddress;
   String addressTypeOid;
   String firmCategory01Oid;
@@ -19,12 +21,12 @@ class Firm {
   bool isPersonCompany = false;
   bool inUse = true;
 
-  String city;
-  String town;
+  // String city;
+  // String town;
   String country;
-  
-  String cityOid;
-  String townOid;
+
+  // String cityOid;
+  // String townOid;
   String countryOid;
 
   String phone1Code;

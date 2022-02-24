@@ -5,7 +5,7 @@ import 'package:netline_cardvisit_reader/helpers/toasthelper.dart';
 import 'package:netline_cardvisit_reader/models/mygooglesettings.dart';
 
 class FirestoreHelper {
-  static Firestore _firestore = Firestore.instance;
+  static FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   static Future<MyGoogleSettings> getSettings() async {
     var settings = new MyGoogleSettings();
@@ -21,18 +21,18 @@ class FirestoreHelper {
 
     await _firestore
         .collection("settings")
-        .document(localSettings.licenceKey)
+        .doc(localSettings.licenceKey)
         .get()
         .then((doc) {
       if (doc.exists) {
-        settings.url = doc["url"];
-        settings.username = doc["username"];
-        settings.password = doc["password"];
-        settings.phoneTypeName = doc["phoneTypeName"];
-        settings.addressTypeName = doc["addressTypeName"];
-        settings.cellPhoneTypeName = doc["cellPhoneTypeName"];
-        settings.workPhoneTypeName = doc["workPhoneTypeName"];
-        settings.faxPhoneTypeName = doc["faxPhoneTypeName"];
+        settings.url = doc.data()["url"];
+        settings.username = doc.data()["username"];
+        settings.password = doc.data()["password"];
+        settings.phoneTypeName = doc.data()["phoneTypeName"];
+        settings.addressTypeName = doc.data()["addressTypeName"];
+        settings.cellPhoneTypeName = doc.data()["cellPhoneTypeName"];
+        settings.workPhoneTypeName = doc.data()["workPhoneTypeName"];
+        settings.faxPhoneTypeName = doc.data()["faxPhoneTypeName"];
       }
     });
 
@@ -49,11 +49,7 @@ class FirestoreHelper {
     String addressTypeName,
     String licenceKey,
   ) async {
-    await _firestore
-        .collection("settings")
-        .document(licenceKey)
-        .get()
-        .then((doc) {
+    await _firestore.collection("settings").doc(licenceKey).get().then((doc) {
       if (!doc.exists) {
         ToastHelper.showToast(
           "Geçersiz Lisans Anahtarı\nInvalid Licence Key",
@@ -75,8 +71,8 @@ class FirestoreHelper {
 
         _firestore
             .collection("settings")
-            .document(licenceKey)
-            .setData(setSettings)
+            .doc(licenceKey)
+            .set(setSettings)
             .then((v) {
           ToastHelper.showToast(
             "Ayarlar Güncellendi",

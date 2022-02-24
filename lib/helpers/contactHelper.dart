@@ -29,7 +29,7 @@ class ContactHelper {
     PostalAddress address = PostalAddress(
       label: localization.work,
       street: firm.mainAddress,
-      city: firm.city,
+      // city: firm.city,
       country: firm.country,
       postcode: "",
       region: "",
@@ -62,15 +62,12 @@ class ContactHelper {
   }
 
   static Future<PermissionStatus> _getContactPermission() async {
-    PermissionStatus permission = await PermissionHandler()
-        .checkPermissionStatus(PermissionGroup.contacts);
-    if (permission != PermissionStatus.granted &&
-        permission != PermissionStatus.disabled) {
-      Map<PermissionGroup, PermissionStatus> permissionStatus =
-          await PermissionHandler()
-              .requestPermissions([PermissionGroup.contacts]);
-      return permissionStatus[PermissionGroup.contacts] ??
-          PermissionStatus.unknown;
+    PermissionStatus permission = await Permission.contacts.request();
+    if (permission != PermissionStatus.granted) {
+      PermissionStatus permissionStatus =
+         await Permission.contacts.request();
+      return permissionStatus ??
+          PermissionStatus.denied;
     } else {
       return permission;
     }
@@ -81,11 +78,6 @@ class ContactHelper {
       throw new PlatformException(
           code: "PERMISSION_DENIED",
           message: "Access to location data denied",
-          details: null);
-    } else if (permissionStatus == PermissionStatus.disabled) {
-      throw new PlatformException(
-          code: "PERMISSION_DISABLED",
-          message: "Location data is not available on device",
           details: null);
     }
   }

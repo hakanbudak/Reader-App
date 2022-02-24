@@ -9,7 +9,7 @@ class ToastHelper {
         msg: message,
         toastLength: length,
         gravity: ToastGravity.BOTTOM,
-        timeInSecForIos: 1,
+        timeInSecForIosWeb: 1,
         backgroundColor:
             isError ? Globals.AppBaseErrorColor : Globals.AppBaseThirdColor,
         textColor: Globals.AppBaseReverseColor,

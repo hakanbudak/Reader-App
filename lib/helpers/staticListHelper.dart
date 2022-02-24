@@ -1,10 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import '../localizations.dart';
 
 class StaticListHelper {
   static getSelectedList(BuildContext context) {
     var localization = new DemoLocalizations(Localizations.localeOf(context));
+
+    final _formKey = GlobalKey<FormState>();
+
+    // Map<String, dynamic> formData;
+
+    // selectedScCategories() {
+    //   getFirmCategories = {
+    //     'City': 'Bangalore',
+    //     'Country': 'INDIA',
+    //   };
+    // }
 
     return <String>[
       localization.choose,
@@ -31,81 +43,195 @@ class StaticListHelper {
     ).toList();
   }
 
+  Map<String, dynamic> formData;
+  final List<String> category = [
+    'Agency',
+    'Company',
+    'Consortia',
+    'Guests',
+    'Partners',
+    'Preferences'
+  ];
+
+  final List<String> guestsCategory = [
+    ///Guests
+    'Transit',
+    'Wholesale ',
+    'Tourseries',
+    'FIT',
+    'Corporate & Mice',
+    'Social & Events',
+    'Incentive',
+    'OTA'
+  ];
+  final List<String> agentyCategory = [
+    ///Agenty
+    'FİT',
+    'Incentıve',
+    'Group',
+    'Leisure',
+    'Social',
+    'Corporate',
+    'Private Services'
+  ];
+  final List<String> companyCategory = [
+    ///Company
+    'Textile',
+    'Health',
+    'Cosmetic',
+    'Transportation',
+    'Construction',
+    'Sport',
+    'Embassy & Goverment',
+    'Food & Beverage Co.'
+  ];
+  final List<String> consortiaCategory = [
+    ///Consortia
+    'Der',
+    'Virtuoso',
+    'Amex',
+    'Signature',
+    'Alhi',
+    'LHW'
+  ];
+
+  final List<String> partnersCategory = [
+    ///Partners
+    'Art/ Galleries',
+    'Buddha Bar',
+    'Spa',
+    'Hairdresser'
+  ];
+  final List<String> preferencesCategory = [
+    ///Preferences
+    'VIP (High Rate)',
+    'Length of stay',
+    'Special Occasion',
+    'Repeat Guest',
+    'Purpose of Visit',
+    'Guest with Pets',
+    'Family  with Kids',
+    'Allergic'
+  ];
+
   static getFirmList() {
     return [
       "SYSTEC",
       "PERMAK",
+      "SANCLEMENTE",
     ];
   }
 
   static List<String> getSectors() {
-    // Permak
     return [
-      "Banka",
-      "Bioteknoloji",
-      "Çevre",
-      "Danışmanlık",
-      "Denizcilik",
-      "Devlet",
-      "Eğitim",
-      "Eğlence",
-      "Elektronik",
-      "Enerji",
-      "Finans",
-      "Hastane",
-      "İletişim",
-      "İnşaat",
-      "Kamu kuruluşları",
-      "Kimya",
-      "Makine",
-      "Medya",
-      "Mühendislik",
-      "Nakliye",
-      "Perakende",
-      "Sağlık",
-      "Sigorta",
-      "Tarım",
-      "Teknoloji",
-      "Tekstil",
-      "Telekomünikasyon",
-      "Üretim",
-      "Yeme/içme",
+      'Guests',
+      'Agency',
+      'Company',
+      'Consortia',
+      'Partners',
+      'Preferences',
     ];
+  }
 
-    // Netline
+  static List<String> getGuests() {
     return [
-      "Banka",
-      "Bioteknoloji",
-      "Çevre",
-      "Danışmanlık",
-      "Denizcilik",
-      "Devlet",
-      "Eğitim",
-      "Eğlence",
-      "Elektronik",
-      "Enerji",
-      "Finans",
-      "Gıda",
-      "Hastane",
-      "İletişim",
-      "İnşaat",
-      "Kamu kuruluşları",
-      "Kimya",
-      "Kozmetik",
-      "Makine",
-      "Medya",
-      "Mühendislik",
-      "Nakliye",
-      "Perakende",
-      "Sağlık",
-      "Sigorta",
-      "Tarım",
-      "Teknoloji",
-      "Tekstil",
-      "Telekomünikasyon",
-      "Üretim",
-      "Yeme/içme",
+      "Transit",
+      "Wholesale",
+      "Tourseries",
+      "FIT",
+      "Corporate & Mice",
+      "Social & Events",
+      "Incentive",
+      "OTA",
     ];
+  }
+
+  static List<String> getAgency() {
+    return [
+      "FIT",
+      "Incentive",
+      "Group",
+      "Leisure",
+      "Social",
+      "Corporate",
+      "Private Services",
+    ];
+  }
+
+  static List<String> getAltCompany() {
+    return [
+      "Textile",
+      "Health",
+      "Cosmetic",
+      "Transportation",
+      "Construction",
+      "Sport",
+      "Embassy & Goverment",
+      "Food & Beverage Co.",
+    ];
+  }
+
+  static List<String> getConsortia() {
+    return [
+      "Der",
+      "Virtuoso",
+      "Amex",
+      "Signature",
+      "Alhi",
+      "LHW",
+    ];
+  }
+
+  static List<String> getPartners() {
+    return [
+      "Art/ Galleries",
+      "Buddha Bar",
+      "Spa",
+      "Hairdresser",
+    ];
+  }
+
+  static List<String> getPreferences() {
+    return [
+      "VIP (High Rate)",
+      "Length of stay",
+      "Special Occasion",
+      "Repeat Guest",
+      "Purpose of Visit",
+      "Guest with Pets",
+      "Family  with Kids",
+      "Allergic",
+    ];
+  }
+
+  static List<String> getCategories(String selectedSector) {
+    switch (selectedSector) {
+      case "Guests":
+        return getGuests();
+        break;
+      case "Agency":
+        return getAgency();
+        break;
+      case "Company":
+        return getAltCompany();
+        break;
+      case "Consortia":
+        return getConsortia();
+        break;
+      case "Partners":
+        return getPartners();
+        break;
+      case "Preferences":
+        return getPreferences();
+        break;
+      default:
+        return [""];
+    }
+  }
+
+  static List<String> getFirmCategories() {
+    // Permak
+    return ["SelectedAltCategory"];
   }
 
   static List<String> getCountryList() {

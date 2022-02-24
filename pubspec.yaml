@@ -1,36 +1,42 @@
 name: netline_cardvisit_reader
 description: A new Flutter application.
 
+publish_to: none
+
 version: 2.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  camera: ^0.5.8+5
-  image_picker: ^0.6.7+7
-  image: ^2.1.14
+  image_picker: ^0.8.4+5
+  # image_picker: ^0.8.4+4
+  image: ^3.1.1
   cupertino_icons: ^1.0.0
-  mlkit: ^0.15.1
-  path_provider: ^1.6.14
+  google_ml_kit: ^0.7.3
+  path_provider: ^2.0.8
   path: ^1.7.0
-  http: ^0.12.2
-  duration: ^2.0.15
-  firebase_auth: ^0.14.0+2
-  cloud_firestore: ^0.13.6
-  firebase_core: ^0.4.0+8
-  google_sign_in: ^4.5.3
-  fluttertoast: ^3.1.0
-  json_serializable: ^3.4.1
-  turkish: ^0.1.0+2
-  dropdownfield: ^1.0.3
-  contacts_service: ^0.4.6
-  shared_preferences: ^0.5.10
-  permission_handler: 4.2.0+hotfix.3
+  http: ^0.13.4
+  duration: ^3.0.8
+  firebase_auth: ^3.3.6
+  cloud_firestore: ^3.1.7
+  firebase_core: ^1.12.0
+  google_sign_in: ^5.2.3
+  fluttertoast: ^8.0.8
+  json_serializable: ^6.1.4
+  turkish: ^0.2.1
+  # snippet_coder_utils: ^1.0.8
+  dropdownfield: 
+    git: 
+      url: https://github.com/proismailshah/dropdownfield
+  contacts_service: ^0.6.3
+  shared_preferences: ^2.0.12
+  permission_handler: ^9.2.0
+  
 
 dev_dependencies:
   flutter_test:
@@ -42,6 +48,7 @@ flutter:
 
   assets:
     - assets/images/netline.png
+   
 
 targets:
   $default:

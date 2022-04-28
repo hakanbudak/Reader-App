@@ -24,12 +24,7 @@ class JsonHelper {
         '"TaxNo": "",'
         '"MainSector": {'
         '   "Oid": "${firm.sectorOid}",'
-        '   "SectorName": "${firm.scCategory}",'
-        '   "IsActive": true,'
-        '},'
-        '"SubSector": {'
-        '   "Oid": "${firm.sectorOid}",'
-        '   "SectorName": "${firm.scSubCategory}",'
+        '   "scCategory": "${firm.sectorName}",'
         '   "IsActive": true,'
         '},'
         '"EmailAddress1": "${firm.eMailAddress1}",'
@@ -52,8 +47,13 @@ class JsonHelper {
         '"IsControllerSaving": false,'
         '"MobileSessionUser": "00000000-0000-0000-0000-000000000000",'
         '"OtherPortfolio": true,'
-        // '"CityOfMainAddress": "",'
+        '"CityOfMainAddress": "",'
         '"CountryOfMainAddress": "",'
+        '"SubSector": {'
+        '   "Oid": "${firm.subSectorOid}",'
+        '   "scSubCategory": "${firm.subSectorName}",'
+        '   "IsActive": true,'
+        '},'
         '"Phones": "",'
         '"ERPId": "",'
         '"ERPCode": "",'
@@ -72,7 +72,7 @@ class JsonHelper {
         '"Auxiliary_Code4": "",'
         '"ARPAccountType": "3",'
         '"Auxiliary_Code3": ""';
-    // '}';
+    '}';
 
     if (firm.firmCategory01Oid.isEmpty) {
       jsonString += '}';
@@ -255,29 +255,29 @@ class JsonHelper {
     return '{'
             '    "AddressType": {'
             '        "Oid": "' +
-        // firm.addressTypeOid +
-        // '"'
-        //     '    },'
-        //     '    "City_": {'
-        //     '        "Oid": "' +
-        // firm.cityOid +
-        // '",'
-        //     '        "CityName": "' +
-        // firm.city +
-        // '"'
-        //     '    },'
-        //     '    "Country": {'
-        //     '        "Oid": "' +
+        firm.addressTypeOid +
+        '"'
+            '    },'
+            '    "City_": {'
+            '        "Oid": "' +
+        firm.cityOid +
+        '",'
+            '        "CityName": "' +
+        firm.city +
+        '"'
+            '    },'
+            '    "Country": {'
+            '        "Oid": "' +
         firm.countryOid +
         '",'
             '        "Name": "TÜRKİYE"'
             '    },'
             '    "RelatedFirm": {'
             '        "Oid": "' +
-        // firm.oid +
-        // '"'
-        //     '    },'
-        //     '    "Street": "' +
+        firm.oid +
+        '"'
+            '    },'
+            '    "Street": "' +
         firm.mainAddress +
         '",'
             '    "Street2": "",'

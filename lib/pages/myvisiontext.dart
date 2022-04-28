@@ -60,7 +60,7 @@ class _MyVisionTextState extends State<MyVisionText> {
   XFile _file;
 
   var _patternHelper = new PatternHelper();
-  
+
   TextDetector detector = GoogleMlKit.vision.textDetector();
 
   TextEditingController _teClientDefinition = new TextEditingController();
@@ -76,7 +76,7 @@ class _MyVisionTextState extends State<MyVisionText> {
   TextEditingController _teBuildingNumber = new TextEditingController();
   TextEditingController _teDistrict = new TextEditingController();
   TextEditingController _teTown = new TextEditingController();
-  // TextEditingController _teCity = new TextEditingController();
+  TextEditingController _teCity = new TextEditingController();
   TextEditingController _teCountry = new TextEditingController();
   TextEditingController _teContact = new TextEditingController();
   TextEditingController _tePersonTitle = new TextEditingController();
@@ -96,7 +96,7 @@ class _MyVisionTextState extends State<MyVisionText> {
   String _buildingNumber;
   String _district;
   String _town;
-  // String _city;
+  String _city;
   String _country;
 
   String _contact;
@@ -108,8 +108,8 @@ class _MyVisionTextState extends State<MyVisionText> {
   String _sessionId = "";
 
   CrmLoginResult _crmLoginResult;
-  // Cities _cities;
-  // Towns _towns;
+  Cities _cities;
+  Towns _towns;
 
   Firm _firm;
 
@@ -235,15 +235,15 @@ class _MyVisionTextState extends State<MyVisionText> {
             //       value = value.replaceAll("\n", " ");
             //       _town = value;
             //     },
-            //     decoration: getPlaceHolder("Semt"),
-            //     cursorColor: Globals.AppBaseColor,
-            //     validator: (value) {
-            //       value = value.replaceAll("\n", " ");
-            //       return validateAddress(value);
-            //     },
-            //     maxLines: 1,
-            //     keyboardType: TextInputType.text,
-            //   ),
+            // decoration: getPlaceHolder("Semt"),
+            // cursorColor: Globals.AppBaseColor,
+            // validator: (value) {
+            //   value = value.replaceAll("\n", " ");
+            //   return validateAddress(value);
+            // },
+            //   maxLines: 1,
+            //   keyboardType: TextInputType.text,
+            // ),
             // ),
             new Padding(
               padding: const EdgeInsets.all(6.0),
@@ -259,20 +259,20 @@ class _MyVisionTextState extends State<MyVisionText> {
                 keyboardType: TextInputType.text,
               ),
             ),
-            // new Padding(
-            //   padding: const EdgeInsets.all(6.0),
-            //   child: new TextFormField(
-            //     controller: _teCity,
-            //     onSaved: (value) {
-            //       value = value.replaceAll("\n", " ");
-            //       _city = value;
-            //     },
-            //     decoration: getPlaceHolder(localization.city),
-            //     cursorColor: Globals.AppBaseColor,
-            //     maxLines: 1,
-            //     keyboardType: TextInputType.text,
-            //   ),
-            // ),
+            new Padding(
+              padding: const EdgeInsets.all(6.0),
+              child: new TextFormField(
+                controller: _teCity,
+                onSaved: (value) {
+                  value = value.replaceAll("\n", " ");
+                  _city = value;
+                },
+                decoration: getPlaceHolder(localization.city),
+                cursorColor: Globals.AppBaseColor,
+                maxLines: 1,
+                keyboardType: TextInputType.text,
+              ),
+            ),
             new Padding(
               padding: const EdgeInsets.all(6.0),
               child: new TextFormField(
@@ -378,28 +378,28 @@ class _MyVisionTextState extends State<MyVisionText> {
               Icons.person_add,
               color: Globals.AppBaseReverseColor,
             ),
-            label:"",
+            label: "",
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.photo,
               color: Globals.AppBaseReverseColor,
             ),
-            label:"",
+            label: "",
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.camera,
               color: Globals.AppBaseReverseColor,
             ),
-            label:"",
+            label: "",
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.settings,
               color: Globals.AppBaseReverseColor,
             ),
-            label:"",
+            label: "",
           ),
         ],
         currentIndex: _selectedIndex,
@@ -473,8 +473,8 @@ class _MyVisionTextState extends State<MyVisionText> {
     var firm = new Firm();
     firm.firmTitle = _teClientDefinition.text;
     firm.mainAddress = _teAddress.text;
-    // firm.city = _teCity.text;
-    // firm.town = _teTown.text;
+    firm.city = _teCity.text; //kaldırdın
+    firm.town = _teTown.text; //kaldırdın
     firm.country = _teCountry.text;
     firm.phone1 = _tePhone1.text;
     firm.phone2 = _tePhone2.text;
@@ -484,7 +484,7 @@ class _MyVisionTextState extends State<MyVisionText> {
     firm.eMailAddress3 = "";
     firm.webAddress1 = _teWebUrl.text;
     firm.webAddress2 = "";
-    // firm.cityOfMainAddress = "";
+    firm.cityOfMainAddress = "";
     firm.countryOfMainAddress = "";
     firm.isPersonCompany = false;
     firm.inUse = true;
@@ -497,11 +497,11 @@ class _MyVisionTextState extends State<MyVisionText> {
   }
 
   transferData() async {
-    // var result = await validateFields().then((onValue) => onValue);
+    var result = await validateFields().then((onValue) => onValue);
 
-    // if (!result) {
-    //   return;
-    // }
+    if (!result) {
+      return;
+    } //kaldırdın var resulta kadar
 
     ToastHelper.showToast("Aktarım Başladı");
 
@@ -618,8 +618,8 @@ class _MyVisionTextState extends State<MyVisionText> {
       var firm = new Firm();
       firm.firmTitle = _teClientDefinition.text;
       firm.mainAddress = _teAddress.text;
-      // firm.city = _teCity.text;
-      // firm.town = _teTown.text;
+      firm.city = ""; //bura
+      firm.town = ""; //bura
       firm.phone1 = _tePhone1.text;
       firm.phone2 = _tePhone2.text;
       firm.fax = _teFax.text;
@@ -628,7 +628,7 @@ class _MyVisionTextState extends State<MyVisionText> {
       firm.eMailAddress3 = "";
       firm.webAddress1 = _teWebUrl.text;
       firm.webAddress2 = "";
-      // firm.cityOfMainAddress = "";
+      firm.cityOfMainAddress = "";
       firm.countryOfMainAddress = "";
       firm.isPersonCompany = false;
       firm.inUse = true;
@@ -648,8 +648,8 @@ class _MyVisionTextState extends State<MyVisionText> {
     _tePersonTitle.text = "";
     _tePersonTitle2.text = "";
     _teAddress.text = "";
-    // _teTown.text = "";
-    // _teCity.text = "";
+    _teTown.text = "";
+    _teCity.text = "";
     _teCountry.text = "";
     _tePhone1.text = "";
     _tePhone2.text = "";
@@ -901,14 +901,14 @@ class _MyVisionTextState extends State<MyVisionText> {
     }
 
     print("district: $district");
+    //printe kadar kaldırdın
+    var city = _patternHelper.getCity(text);
 
-    // var city = _patternHelper.getCity(text);
+    if (city.isNotEmpty) {
+      text = StringHelper.replaceAll(text, city);
+    }
 
-    // if (city.isNotEmpty) {
-    //   text = StringHelper.replaceAll(text, city);
-    // }
-
-    // print("city: $city");
+    print("city: $city");
 
     var name = _patternHelper.getNames(text, " ").replaceAll(" ", "");
 
@@ -972,12 +972,12 @@ class _MyVisionTextState extends State<MyVisionText> {
     if (district.isNotEmpty) {
       addressText += district + " ";
     }
-    // if (town.isNotEmpty) {
-    //   addressText += town + " ";
-    // }
-    // if (city.isNotEmpty) {
-    //   addressText += city + " ";
-    // }
+    if (town.isNotEmpty) {
+      addressText += town + " ";
+    }
+    if (city.isNotEmpty) {
+      addressText += city + " ";
+    }
 
     for (int i = 0; i < 5; i++) {
       var address = _patternHelper.getAddress(text);
@@ -1057,7 +1057,7 @@ class _MyVisionTextState extends State<MyVisionText> {
         addressText.trimLeft().trimRight().trim().replaceAll("  ", " ");
     _teDistrict.text = district.replaceAll("/", "");
     _teTown.text = town.replaceAll(",", "").replaceAll("/", "");
-    // _teCity.text = city;
+    _teCity.text = city;
     _teCountry.text = country;
 
     print("Before Replace: $text");
@@ -1175,16 +1175,17 @@ class _MyVisionTextState extends State<MyVisionText> {
         });
         try {
           final inputImage = InputImage.fromFilePath(_file?.path);
-          
-          final RecognisedText currentLabels = await detector.processImage(inputImage);
+
+          final RecognisedText currentLabels =
+              await detector.processImage(inputImage);
 
           setState(() {
             var originalText = "";
 
             // TODO: Eğer iki veya üç kelimelik satır geliyorsa isim olarak değerlendirilecek
-            
-              originalText +=
-                  currentLabels.text.replaceAll("\r", " ").replaceAll("\n", " ");
+
+            originalText +=
+                currentLabels.text.replaceAll("\r", " ").replaceAll("\n", " ");
 
             debugPrint("originalText: $originalText");
 
@@ -1262,67 +1263,67 @@ class _MyVisionTextState extends State<MyVisionText> {
     return "";
   }
 
-  // Future<String> validateAddress() async {
-  //   var countryName = turkish.toUpperCase(_teCountry.text);
-  //   var cityName = turkish.toUpperCase(_teCity.text);
-  //   var townName = turkish.toUpperCase(_teTown.text);
+  Future<String> validateAddress() async {
+    var countryName = turkish.toUpperCase(_teCountry.text);
+    var cityName = turkish.toUpperCase(_teCity.text);
+    var townName = turkish.toUpperCase(_teTown.text);
 
-  //   if (countryName.isEmpty) {
-  //     return "Ülke Belirtilmelidir.";
-  //   }
+    if (countryName.isEmpty) {
+      return "Ülke Belirtilmelidir.";
+    }
 
-  //   var counrtyOid =
-  //       await RestHelper.getCountryOid(countryName).then((onValue) => onValue);
+    var counrtyOid =
+        await RestHelper.getCountryOid(countryName).then((onValue) => onValue);
 
-  //   if (counrtyOid.isEmpty) {
-  //     return "Ülke Bulunamadı.";
-  //   }
+    if (counrtyOid.isEmpty) {
+      return "Ülke Bulunamadı.";
+    }
 
-  //   _firm.countryOid = counrtyOid;
+    _firm.countryOid = counrtyOid;
 
-  //   if (cityName.isEmpty || townName.isEmpty) {
-  //     return "İl-İlçe Belirtilmelidir.";
-  //   }
+    if (cityName.isEmpty || townName.isEmpty) {
+      return "İl-İlçe Belirtilmelidir.";
+    }
 
-  //   _cities =
-  //       await RestHelper.getCities(countryName).then((onValue) => onValue);
+    _cities =
+        await RestHelper.getCities(countryName).then((onValue) => onValue);
 
-  //   var crmCityList = _cities.items.where((i) => i.cityName == cityName);
+    var crmCityList = _cities.items.where((i) => i.cityName == cityName);
 
-  //   var crmCity = new CityItems("", "", "", 0);
+    var crmCity = new CityItems("", "", "", 0);
 
-  //   if (crmCityList.any((i) => i.cityName == cityName)) {
-  //     crmCity = _cities.items.firstWhere((i) => i.cityName == cityName);
-  //   }
+    if (crmCityList.any((i) => i.cityName == cityName)) {
+      crmCity = _cities.items.firstWhere((i) => i.cityName == cityName);
+    }
 
-  //   if (crmCity.oid.isEmpty) {
-  //     return "CRM'de Belirtilen İl Bulunamadı";
-  //   }
+    if (crmCity.oid.isEmpty) {
+      return "CRM'de Belirtilen İl Bulunamadı";
+    }
 
-  //   _firm.cityOid = crmCity.oid;
+    _firm.cityOid = crmCity.oid;
 
-  //   _towns = await RestHelper.getTowns(crmCity.oid).then((onValue) => onValue);
+    _towns = await RestHelper.getTowns(crmCity.oid).then((onValue) => onValue);
 
-  //   var crmTownList = _towns.items.where((i) => i.countyName == townName);
+    var crmTownList = _towns.items.where((i) => i.countyName == townName);
 
-  //   var crmTown = new TownItems("", "", 0);
+    var crmTown = new TownItems("", "", 0);
 
-  //   if (crmTownList.any((i) => i.countyName == townName)) {
-  //     crmTown = crmTownList.firstWhere((i) => i.countyName == townName);
-  //   }
+    if (crmTownList.any((i) => i.countyName == townName)) {
+      crmTown = crmTownList.firstWhere((i) => i.countyName == townName);
+    }
 
-  //   if (crmTown.oid.isEmpty) {
-  //     return "CRM'de Belirtilen İlin " + townName + " İlçesi Bulunamadı.";
-  //   }
+    if (crmTown.oid.isEmpty) {
+      return "CRM'de Belirtilen İlin " + townName + " İlçesi Bulunamadı.";
+    }
 
-  //   _firm.townOid = crmTown.oid;
+    _firm.townOid = crmTown.oid;
 
-  //   if (_teAddress.text.isEmpty) {
-  //     return "Adres Bilgisi Girilmelidir.";
-  //   }
+    if (_teAddress.text.isEmpty) {
+      return "Adres Bilgisi Girilmelidir.";
+    }
 
-  //   return "";
-  // }
+    return "";
+  }
 
   validateEMail(String value) {
     Pattern pattern =
@@ -1356,25 +1357,26 @@ class _MyVisionTextState extends State<MyVisionText> {
     return 'Geçerli Bir Telefon Numarası Giriniz.';
   }
 
-  // Future<bool> validateFields() async {
-  //   _firm = getFirm();
+  //kaldırdın
+  Future<bool> validateFields() async {
+    _firm = getFirm();
 
-  //   var result = validateClientDefinition(_teClientDefinition.text);
+    var result = validateClientDefinition(_teClientDefinition.text);
 
-  //   if (result.isNotEmpty) {
-  //     showError(result);
-  //     return false;
-  //   }
+    if (result.isNotEmpty) {
+      showError(result);
+      return false;
+    }
 
-  //   result = await validateAddress().then((onValue) => onValue);
+    result = await validateAddress().then((onValue) => onValue);
 
-  //   if (result.isNotEmpty) {
-  //     showError(result);
-  //     return false;
-  //   }
+    if (result.isNotEmpty) {
+      showError(result);
+      return false;
+    }
 
-  //   return true;
-  // }
+    return true;
+  }
 
   showError(String message) {
     ToastHelper.showToast(message, Toast.LENGTH_LONG, true);

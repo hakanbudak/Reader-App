@@ -12,21 +12,23 @@ class Firm {
   String mainAddress;
   String scCategory;
   String scSubCategory;
-  // String cityOfMainAddress;
+  String cityOfMainAddress;
   String countryOfMainAddress;
   String addressTypeOid;
   String firmCategory01Oid;
   String sectorOid;
   String sectorName;
+  String subSectorOid;
+  String subSectorName;
   bool isPersonCompany = false;
   bool inUse = true;
 
-  // String city;
-  // String town;
+  String city;
+  String town;
   String country;
 
-  // String cityOid;
-  // String townOid;
+  String cityOid;
+  String townOid;
   String countryOid;
 
   String phone1Code;

@@ -19,7 +19,7 @@ class DemoLocalizations {
       'contactTitle2': "Contact Title 2",
       'address': "Address",
       'town': "Town",
-      // 'city': "City",
+      'city': "City",
       'country': "Country",
       'phone1': "Phone 1",
       'phone2': "Phone 2",
@@ -48,7 +48,7 @@ class DemoLocalizations {
       'mobilePhone': 'Mobile Phone',
       'web': 'Web',
       'countryCannotBePassedEmpty': 'Country Cannot be Passed Empty',
-      // 'cityCannotBePassedEmpty': 'City Cannot be Passed Empty',
+      'cityCannotBePassedEmpty': 'City Cannot be Passed Empty',
       'clientDefinitionCannotBePassedEmpty':
           'Client Definition Cannot be Passed Empty',
       'chooseCountry': 'Choose Country',
@@ -56,7 +56,7 @@ class DemoLocalizations {
       'chooseSubCategory': "Choose SC Sub Category",
       'addressCannotBePassedEmpty': 'Address Cannot be Passed Empty',
       'countryIsNotFound': 'Country is not Found',
-      // 'cityIsNotFound': 'City is not Found',
+      'cityIsNotFound': 'City is not Found',
       'sectorIsNotFound': 'Sector is not Found',
       'selectFirm': 'Select Firm',
       'addedToContacts': 'Added to Contacts',
@@ -257,9 +257,9 @@ class DemoLocalizations {
     return _localizedValues[locale.languageCode]['town'];
   }
 
-  // String get city {
-  //   return _localizedValues[locale.languageCode]['city'];
-  // }
+  String get city {
+    return _localizedValues[locale.languageCode]['city'];
+  }
 
   String get choose {
     return _localizedValues[locale.languageCode]['choose'];
@@ -338,9 +338,10 @@ class DemoLocalizations {
     return _localizedValues[locale.languageCode]['countryIsNotFound'];
   }
 
-  // String get cityIsNotFound {
-  //   return _localizedValues[locale.languageCode]['cityIsNotFound'];
-  // }
+  String get cityIsNotFound {
+    return _localizedValues[locale.languageCode]['cityIsNotFound'];
+  }
+
   String get chooseSubCategory {
     return _localizedValues[locale.languageCode]['chooseSubCategory'];
   }

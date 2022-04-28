@@ -40,7 +40,6 @@ Sectors sectorsFromJson(Map json) {
 Sector sectorFromJson(Map json) {
   return Sector(
     json['Oid'] as String,
-    json['SectorName'] as String,
+    json['sectorName'] as String,
   );
 }
-

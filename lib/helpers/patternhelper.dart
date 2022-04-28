@@ -168,28 +168,28 @@ class PatternHelper {
     return regexResult(pattern, value);
   }
 
-  // String getCity(String value) {
-  //   var pattern =
-  //       r"(Dhahran|Genova|Riyadh|Dubai|(St.\s*)?Petersburg|Samara|Al Ain|Abu Dhabi|Jeddah|Al-Khobar|Khobar)";
+  String getCity(String value) {
+    var pattern =
+        r"(Dhahran|Genova|Riyadh|Dubai|(St.\s*)?Petersburg|Samara|Al Ain|Abu Dhabi|Jeddah|Al-Khobar|Khobar)";
 
-  //   var matchResult = regexResult(pattern, value);
+    var matchResult = regexResult(pattern, value);
 
-  //   if (matchResult.isNotEmpty && matchResult != "null") {
-  //     debugPrint("FirstPattern: $matchResult");
-  //     return matchResult;
-  //   }
+    if (matchResult.isNotEmpty && matchResult != "null") {
+      debugPrint("FirstPattern: $matchResult");
+      return matchResult;
+    }
 
-  //   pattern = r"";
+    pattern = r"";
 
-  //   matchResult = regexResult(pattern, value);
+    matchResult = regexResult(pattern, value);
 
-  //   if (matchResult.isNotEmpty && matchResult != "null") {
-  //     debugPrint("FirstPattern: $matchResult");
-  //     return matchResult;
-  //   }
+    if (matchResult.isNotEmpty && matchResult != "null") {
+      debugPrint("FirstPattern: $matchResult");
+      return matchResult;
+    }
 
-  //   return regexResult(pattern, value);
-  // }
+    return regexResult(pattern, value);
+  }
 
   String getCountry(String value) {
     Pattern pattern =

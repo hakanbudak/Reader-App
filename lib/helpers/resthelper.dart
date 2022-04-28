@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart';
 import 'package:netline_cardvisit_reader/helpers/toasthelper.dart';
 import 'package:netline_cardvisit_reader/models/address.dart';
+import 'package:netline_cardvisit_reader/models/altsector.dart';
 import 'package:netline_cardvisit_reader/models/cities.dart';
 import 'package:netline_cardvisit_reader/models/crmloginresult.dart';
 import 'package:netline_cardvisit_reader/models/crmpostresultmodel.dart';
@@ -15,6 +16,7 @@ import 'package:netline_cardvisit_reader/models/phone.dart';
 import 'package:netline_cardvisit_reader/models/postresultmodel.dart';
 import 'package:netline_cardvisit_reader/models/sector.dart';
 import 'package:netline_cardvisit_reader/models/towns.dart';
+import 'package:path/path.dart';
 
 import 'firestoreHelper.dart';
 import 'jsonhelper.dart';
@@ -26,6 +28,7 @@ class RestHelper {
   static String _addressTypeOid = "";
   static String _countryOid;
   static String _sectorOid;
+  static String _subSectorOid;
   static String _firmCategory01 = "";
 
   static Map<String, String> _header = {"Content-type": "application/json"};
@@ -624,60 +627,60 @@ class RestHelper {
     }
   }
 
-  // static Future<Cities> getCities(String countryName) async {
-  //   _countryOid = await getCountryOid(countryName).then((onValue) {
-  //     return _countryOid;
-  //   });
+  static Future<Cities> getCities(String countryName) async {
+    _countryOid = await getCountryOid(countryName).then((onValue) {
+      return _countryOid;
+    });
 
-  //   if (_countryOid.isEmpty) {
-  //     return new Cities(
-  //       0,
-  //       "Ülke Referansına Erişilemediği İçin İller Listesi Çekilemedi.",
-  //     );
-  //   }
+    if (_countryOid.isEmpty) {
+      return new Cities(
+        0,
+        "Ülke Referansına Erişilemediği İçin İller Listesi Çekilemedi.",
+      );
+    }
 
-  //   var url = _settings.url +
-  //       "/api/v1.0/cities?SessionId=" +
-  //       _crmLoginResult.sessionId +
-  //       "&fieldName=Oid,CityName,AreaCode,GlobalDBId&q=CountryOid='" +
-  //       _countryOid +
-  //       "' AND GlobalDBId>0&limit=1000";
+    var url = _settings.url +
+        "/api/v1.0/cities?SessionId=" +
+        _crmLoginResult.sessionId +
+        "&fieldName=Oid,CityName,AreaCode,GlobalDBId&q=CountryOid='" +
+        _countryOid +
+        "' AND GlobalDBId>0&limit=1000";
 
-  //   var response = await get(url);
+    var response = await get(Uri.parse(url));
 
-  //   var cities = Cities.fromJson(jsonDecode(response.body));
+    var cities = Cities.fromJson(jsonDecode(response.body));
 
-  //   if (cities.result != 1) {
-  //     ToastHelper.showToast("İller Listesi Çekilemedi. " + cities.message,
-  //         Toast.LENGTH_LONG, true);
+    if (cities.result != 1) {
+      ToastHelper.showToast("İller Listesi Çekilemedi. " + cities.message,
+          Toast.LENGTH_LONG, true);
 
-  //     var resCities = new Cities(0, "İller Listesi Çekilemedi");
-  //     return resCities;
-  //   }
+      var resCities = new Cities(0, "İller Listesi Çekilemedi");
+      return resCities;
+    }
 
-  //   return cities;
-  // }
+    return cities;
+  }
 
-  // static Future<Towns> getTowns(String cityOid) async {
-  //   var url = _settings.url +
-  //       "/api/v1.0/counties?SessionId=" +
-  //       _crmLoginResult.sessionId +
-  //       "&fields=Oid,CountyName,GlobalDBId,CityOid"
-  //           "&q=CityOid='" +
-  //       cityOid +
-  //       "' AND GlobalDBId>0&limit=10000";
+  static Future<Towns> getTowns(String cityOid) async {
+    var url = _settings.url +
+        "/api/v1.0/counties?SessionId=" +
+        _crmLoginResult.sessionId +
+        "&fields=Oid,CountyName,GlobalDBId,CityOid"
+            "&q=CityOid='" +
+        cityOid +
+        "' AND GlobalDBId>0&limit=10000";
 
-  //   var response = await get(url);
+    var response = await get(Uri.parse(url));
 
-  //   var towns = Towns.fromJson(jsonDecode(response.body));
+    var towns = Towns.fromJson(jsonDecode(response.body));
 
-  //   if (towns.result != 1) {
-  //     ToastHelper.showToast("İlçeler Listesi Çekilemedi. " + towns.message,
-  //         Toast.LENGTH_LONG, true);
-  //   }
+    if (towns.result != 1) {
+      ToastHelper.showToast("İlçeler Listesi Çekilemedi. " + towns.message,
+          Toast.LENGTH_LONG, true);
+    }
 
-  //   return towns;
-  // }
+    return towns;
+  }
 
   static Future<Sectors> getSectors() async {
     var url = "${_settings.url}/api/v1.0/sectors?" +
@@ -698,6 +701,7 @@ class RestHelper {
 
   static Future<String> getSectorOid(String sectorName) async {
     var url =
+        // "${_settings.url}/api/v1.0/subSectors?SessionId=${_crmLoginResult.sessionId}&query=MainSector.SectorName='$sectorName'";
         "${_settings.url}/api/v1.0/sectors?SessionId=${_crmLoginResult.sessionId}&q=SectorName='$sectorName'";
 
     var response = await get(Uri.parse(url));
@@ -707,7 +711,7 @@ class RestHelper {
     print(response.body);
 
     if (crmPostResult.result != 1) {
-      ToastHelper.showToast("Sektör Bulunamadı. " + crmPostResult.message,
+      ToastHelper.showToast("Ana Kategori bulunamadı. " + crmPostResult.message,
           Toast.LENGTH_LONG, true);
 
       if (crmPostResult.message.contains("-221")) {
@@ -729,6 +733,58 @@ class RestHelper {
     }
   }
 
+  static Future<Sectors1> getSubSectors() async {
+    var url = "${_settings.url}/api/v1.0/subSectors?" +
+        "SessionId=${_crmLoginResult.sessionId}" +
+        "&q=IsActive=true";
+
+    var response = await get(Uri.parse(url));
+
+    var sectors = Sectors1.fromJson(jsonDecode(response.body));
+
+    if (sectors.result != 1) {
+      ToastHelper.showToast("Alt Sektörler Çekilemedi. " + sectors.message,
+          Toast.LENGTH_LONG, true);
+    }
+
+    return sectors;
+  }
+
+  static Future<String> getSubSectorOid(String subSectorName) async {
+    var url =
+        "${_settings.url}/api/v1.0/subSectors?SessionId=${_crmLoginResult.sessionId}&query=SubSectorName='$subSectorName'";
+    // "${_settings.url}/api/v1.0/SubSectors?SessionId=${_crmLoginResult.sessionId}&q=SectorName='$subSectorName'";
+    // "${_settings.url}/api/v1.0/subSectors?SessionId=${_crmLoginResult.sessionId}&query=MainSector.SectorName='$sectorName'";
+
+    var response = await get(Uri.parse(url));
+
+    var crmPostResult = CrmPostResultModel.fromJson(jsonDecode(response.body));
+    print(url);
+    print(response.body);
+
+    if (crmPostResult.result != 1) {
+      ToastHelper.showToast("Alt Kategori bulunamadı. " + crmPostResult.message,
+          Toast.LENGTH_LONG, true);
+
+      if (crmPostResult.message.contains("-221")) {
+        _crmLoginResult.sessionId = "";
+        await loginToRest();
+        getSubSectorOid(subSectorName);
+      }
+
+      _subSectorOid = "";
+      return "";
+    }
+
+    if (crmPostResult.items.length > 0) {
+      _subSectorOid = crmPostResult.items.first.oid;
+      return crmPostResult.items.first.oid;
+    } else {
+      _subSectorOid = "";
+      return "";
+    }
+  }
+
   static void postFirm(String sessionId, Firm firm) async {
     debugPrint("PostFirm");
 
@@ -742,7 +798,8 @@ class RestHelper {
 
     var jsonString = JsonHelper.getFirmJsonString(firm);
 
-    Response response = await post(Uri.parse(url), headers: headers, body: jsonString);
+    Response response =
+        await post(Uri.parse(url), headers: headers, body: jsonString);
 
     String body = response.body;
 
@@ -838,14 +895,15 @@ class RestHelper {
 
     if (firm.mainAddress.isNotEmpty) {
       var address = new Address();
-      // address.city = firm.city;
-      // address.county = firm.town;
+      address.city = firm.city;
+      address.county = firm.town;
       address.street = firm.mainAddress;
 
       // var addressJson = JsonHelper.getAddressJsonString(firmOid, address);
       var addressJson = JsonHelper.getAddressJsonString(firm);
 
-      response = await post(Uri.parse(url), headers: headers, body: addressJson);
+      response =
+          await post(Uri.parse(url), headers: headers, body: addressJson);
 
       body = response.body;
 
@@ -883,7 +941,8 @@ class RestHelper {
 
       debugPrint("ContactJson:\n" + contactJson);
 
-      response = await post(Uri.parse(url), headers: headers, body: contactJson);
+      response =
+          await post(Uri.parse(url), headers: headers, body: contactJson);
 
       body = response.body;
 

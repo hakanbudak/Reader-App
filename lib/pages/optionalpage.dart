@@ -17,6 +17,7 @@ import 'package:turkish/turkish.dart';
 
 import '../globals.dart';
 import '../localizations.dart';
+import '../models/cities.dart';
 import 'settingspage.dart';
 
 class OptionalPage extends StatefulWidget {
@@ -2409,33 +2410,33 @@ class _OptionalPageState extends State<OptionalPage> {
       ],
     );
 
-    // var cityColumn = Column(
-    //   children: <Widget>[
-    //     Visibility(
-    //       visible: true,
-    //       child: Padding(
-    //         padding: const EdgeInsets.all(8.0),
-    //         child: Row(
-    //           children: <Widget>[
-    //             Expanded(
-    //               flex: 10,
-    //               child: TextField(
-    //                 style: textStyle,
-    //                 controller: textEditingControllerCity,
-    //                 decoration: InputDecoration(
-    //                   border: InputBorder.none,
-    //                   focusColor: Globals.AppBaseColor,
-    //                   hintText: 'City',
-    //                   hintStyle: textStyle,
-    //                 ),
-    //               ),
-    //             )
-    //           ],
-    //         ),
-    //       ),
-    //     ),
-    //   ],
-    // );
+    var cityColumn = Column(
+      children: <Widget>[
+        Visibility(
+          visible: true,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  flex: 10,
+                  child: TextField(
+                    style: textStyle,
+                    controller: textEditingControllerCity,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      focusColor: Globals.AppBaseColor,
+                      hintText: 'City',
+                      hintStyle: textStyle,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
 
     var countryDropDown = Column(
       children: <Widget>[
@@ -2456,9 +2457,7 @@ class _OptionalPageState extends State<OptionalPage> {
                     items: StaticListHelper.getCountryList(),
                     strict: false,
                     onValueChanged: (dynamic newValue) {
-                      setState(() {
-                        selectedCountry = newValue;
-                      });
+                      selectedCountry = newValue;
                       print("onValueChanged: $newValue");
                     },
                     controller: textEditingControllerCountry,
@@ -2495,9 +2494,7 @@ class _OptionalPageState extends State<OptionalPage> {
                     items: StaticListHelper.getFirmList(),
                     strict: false,
                     onValueChanged: (dynamic newValue) {
-                      setState(() {
-                        selectedFirm = newValue;
-                      });
+                      selectedFirm = newValue;
                       print("onValueChanged: $newValue");
                     },
                     controller: textEditingControllerFirm,
@@ -3121,7 +3118,7 @@ class _OptionalPageState extends State<OptionalPage> {
     widgetList.add(divider29);
     widgetList.add(column30);
     widgetList.add(divider30);
-    // widgetList.add(cityColumn);
+    widgetList.add(cityColumn);
     widgetList.add(divider);
     widgetList.add(countryDropDown);
     widgetList.add(firmListDropDown);
@@ -3274,10 +3271,10 @@ class _OptionalPageState extends State<OptionalPage> {
     visibleDivider29 = false;
     visibleDivider30 = false;
 
-    // selectedCountry = "";
+    selectedCountry = "";
 
-    // textEditingControllerCity.text = "";
-    // textEditingControllerCountry.text = "";
+    textEditingControllerCity.text = "";
+    textEditingControllerCountry.text = "";
   }
 
   takeText(ImageSource imageSource, bool isDoubleSide) async {
@@ -4696,7 +4693,7 @@ class _OptionalPageState extends State<OptionalPage> {
 
   transferData() async {
     var country = turkish.toUpperCase(getCountry());
-    // var city = turkish.toUpperCase(getCity());
+    var city = turkish.toUpperCase(getCity());
 
     if (country.isEmpty) {
       ToastHelper.showToast(
@@ -4706,14 +4703,14 @@ class _OptionalPageState extends State<OptionalPage> {
       );
       return;
     }
-    // if (city.isEmpty) {
-    //   ToastHelper.showToast(
-    //     localization.cityCannotBePassedEmpty,
-    //     Toast.LENGTH_LONG,
-    //     true,
-    //   );
-    //   return;
-    // }
+    if (city.isEmpty) {
+      ToastHelper.showToast(
+        localization.cityCannotBePassedEmpty,
+        Toast.LENGTH_LONG,
+        true,
+      );
+      return;
+    }
     if (getFirmTitle().isEmpty) {
       ToastHelper.showToast(
         localization.clientDefinitionCannotBePassedEmpty,
@@ -4739,6 +4736,15 @@ class _OptionalPageState extends State<OptionalPage> {
       return;
     }
     if (selectedSector.isEmpty) {
+      ToastHelper.showToast(
+        localization.pleaseSelectSector,
+        Toast.LENGTH_LONG,
+        true,
+      );
+      return;
+    }
+
+    if (selectedSubCategory.isEmpty) {
       ToastHelper.showToast(
         localization.pleaseSelectSector,
         Toast.LENGTH_LONG,
@@ -4777,41 +4783,54 @@ class _OptionalPageState extends State<OptionalPage> {
 
     firm.countryOid = countryOid;
 
-    // var cities = await RestHelper.getCities(country).then((onValue) => onValue);
+    var cities = await RestHelper.getCities(country).then((onValue) => onValue);
 
-    // var crmCityList = cities.items.where((i) => i.cityName == city);
+    var crmCityList = cities.items.where((i) => i.cityName == city);
 
-    // var crmCity = new CityItems("", "", "", 0);
+    var crmCity = new CityItems("", "", "", 0);
 
-    // if (crmCityList.any((i) => i.cityName == city)) {
-    //   crmCity = cities.items.firstWhere((i) => i.cityName == city);
-    // }
+    if (crmCityList.any((i) => i.cityName == city)) {
+      crmCity = cities.items.firstWhere((i) => i.cityName == city);
+    }
 
-    // if (crmCity.oid.isEmpty) {
-    //   ToastHelper.showToast(
-    //     localization.cityIsNotFound,
-    //     Toast.LENGTH_LONG,
-    //     true,
-    //   );
-    //   return;
-    // }
+    if (crmCity.oid.isEmpty) {
+      ToastHelper.showToast(
+        localization.cityIsNotFound,
+        Toast.LENGTH_LONG,
+        true,
+      );
+      return;
+    }
 
-    // var sectorOid = await RestHelper.getSectorOid(selectedSector)
-    //     .then((onValue) => onValue);
+    var sectorOid = await RestHelper.getSectorOid(selectedSector)
+        .then((onValue) => onValue);
 
-    // if (sectorOid.isEmpty) {
-    //   ToastHelper.showToast(
-    //     localization.sectorIsNotFound,
-    //     Toast.LENGTH_LONG,
-    //     true,
-    //   );
-    //   return;
-    // }
+    if (sectorOid.isEmpty) {
+      ToastHelper.showToast(
+        localization.sectorIsNotFound,
+        Toast.LENGTH_LONG,
+        true,
+      );
+      return;
+    }
+
+    var subSectorOid = await RestHelper.getSubSectorOid(selectedSubCategory)
+        .then((onValue) => onValue);
+
+    if (subSectorOid.isEmpty) {
+      ToastHelper.showToast(
+        localization.sectorIsNotFound,
+        Toast.LENGTH_LONG,
+        true,
+      );
+      return;
+    }
 
     firm.sectorName = selectedSector;
-    // firm.sectorOid = sectorOid;
-    firm.sectorOid = "yok";
-    // firm.cityOid = crmCity.oid;
+    firm.sectorOid = sectorOid;
+    firm.subSectorName = selectedSubCategory;
+    firm.subSectorOid = subSectorOid;
+    firm.cityOid = crmCity.oid;
 
     var firmCategory01Oid = await RestHelper.getFirmCategory01Oid(selectedFirm)
         .then((onValue) => onValue);
@@ -5011,8 +5030,8 @@ class _OptionalPageState extends State<OptionalPage> {
     var firm = new Firm();
     firm.firmTitle = getFirmTitle();
     firm.mainAddress = getAddress();
-    // firm.city = textEditingControllerCity.text;
-    // firm.town = "";
+    firm.city = textEditingControllerCity.text;
+    firm.town = "";
     firm.scCategory = selectedSector;
     firm.scSubCategory = selectedSubCategory;
     firm.country = textEditingControllerCountry.text;
@@ -5026,7 +5045,7 @@ class _OptionalPageState extends State<OptionalPage> {
     firm.eMailAddress3 = "";
     firm.webAddress1 = StringHelper.getWebUrlText(getWeb());
     firm.webAddress2 = "";
-    // firm.cityOfMainAddress = "";
+    firm.cityOfMainAddress = "";
     firm.countryOfMainAddress = "";
     firm.isPersonCompany = false;
     firm.inUse = true;
@@ -5036,52 +5055,52 @@ class _OptionalPageState extends State<OptionalPage> {
     return firm;
   }
 
-  // String getCity() {
-  //   if (selectedItem1 == localization.city) {
-  //     return textEditingController1.text;
-  //   } else if (selectedItem2 == localization.city) {
-  //     return textEditingController2.text;
-  //   } else if (selectedItem3 == localization.city) {
-  //     return textEditingController3.text;
-  //   } else if (selectedItem4 == localization.city) {
-  //     return textEditingController4.text;
-  //   } else if (selectedItem5 == localization.city) {
-  //     return textEditingController5.text;
-  //   } else if (selectedItem6 == localization.city) {
-  //     return textEditingController6.text;
-  //   } else if (selectedItem7 == localization.city) {
-  //     return textEditingController7.text;
-  //   } else if (selectedItem8 == localization.city) {
-  //     return textEditingController8.text;
-  //   } else if (selectedItem9 == localization.city) {
-  //     return textEditingController9.text;
-  //   } else if (selectedItem10 == localization.city) {
-  //     return textEditingController10.text;
-  //   } else if (selectedItem11 == localization.city) {
-  //     return textEditingController11.text;
-  //   } else if (selectedItem12 == localization.city) {
-  //     return textEditingController12.text;
-  //   } else if (selectedItem13 == localization.city) {
-  //     return textEditingController13.text;
-  //   } else if (selectedItem14 == localization.city) {
-  //     return textEditingController14.text;
-  //   } else if (selectedItem15 == localization.city) {
-  //     return textEditingController15.text;
-  //   } else if (selectedItem16 == localization.city) {
-  //     return textEditingController16.text;
-  //   } else if (selectedItem17 == localization.city) {
-  //     return textEditingController17.text;
-  //   } else if (selectedItem18 == localization.city) {
-  //     return textEditingController18.text;
-  //   } else if (selectedItem19 == localization.city) {
-  //     return textEditingController19.text;
-  //   } else if (selectedItem20 == localization.city) {
-  //     return textEditingController20.text;
-  //   // } else if (textEditingControllerCity.text.isNotEmpty) {
-  //   //   return textEditingControllerCity.text;
-  //   }
-  //   return "";
-  // }
+  String getCity() {
+    if (selectedItem1 == localization.city) {
+      return textEditingController1.text;
+    } else if (selectedItem2 == localization.city) {
+      return textEditingController2.text;
+    } else if (selectedItem3 == localization.city) {
+      return textEditingController3.text;
+    } else if (selectedItem4 == localization.city) {
+      return textEditingController4.text;
+    } else if (selectedItem5 == localization.city) {
+      return textEditingController5.text;
+    } else if (selectedItem6 == localization.city) {
+      return textEditingController6.text;
+    } else if (selectedItem7 == localization.city) {
+      return textEditingController7.text;
+    } else if (selectedItem8 == localization.city) {
+      return textEditingController8.text;
+    } else if (selectedItem9 == localization.city) {
+      return textEditingController9.text;
+    } else if (selectedItem10 == localization.city) {
+      return textEditingController10.text;
+    } else if (selectedItem11 == localization.city) {
+      return textEditingController11.text;
+    } else if (selectedItem12 == localization.city) {
+      return textEditingController12.text;
+    } else if (selectedItem13 == localization.city) {
+      return textEditingController13.text;
+    } else if (selectedItem14 == localization.city) {
+      return textEditingController14.text;
+    } else if (selectedItem15 == localization.city) {
+      return textEditingController15.text;
+    } else if (selectedItem16 == localization.city) {
+      return textEditingController16.text;
+    } else if (selectedItem17 == localization.city) {
+      return textEditingController17.text;
+    } else if (selectedItem18 == localization.city) {
+      return textEditingController18.text;
+    } else if (selectedItem19 == localization.city) {
+      return textEditingController19.text;
+    } else if (selectedItem20 == localization.city) {
+      return textEditingController20.text;
+    } else if (textEditingControllerCity.text.isNotEmpty) {
+      return textEditingControllerCity.text;
+    }
+    return "";
+  }
 
   String getCountry() {
     if (selectedItem1 == localization.country) {

@@ -29,7 +29,7 @@ class ContactHelper {
     PostalAddress address = PostalAddress(
       label: localization.work,
       street: firm.mainAddress,
-      // city: firm.city,
+      city: firm.city,
       country: firm.country,
       postcode: "",
       region: "",
@@ -64,10 +64,8 @@ class ContactHelper {
   static Future<PermissionStatus> _getContactPermission() async {
     PermissionStatus permission = await Permission.contacts.request();
     if (permission != PermissionStatus.granted) {
-      PermissionStatus permissionStatus =
-         await Permission.contacts.request();
-      return permissionStatus ??
-          PermissionStatus.denied;
+      PermissionStatus permissionStatus = await Permission.contacts.request();
+      return permissionStatus ?? PermissionStatus.denied;
     } else {
       return permission;
     }

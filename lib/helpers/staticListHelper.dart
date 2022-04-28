@@ -9,7 +9,7 @@ class StaticListHelper {
 
     final _formKey = GlobalKey<FormState>();
 
-    // Map<String, dynamic> formData;
+    Map<String, dynamic> formData;
 
     // selectedScCategories() {
     //   getFirmCategories = {
